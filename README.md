@@ -48,6 +48,7 @@ the procedure is as follows:
 ### GRADIENT DETECTION
 * Edge pixels are determined using ```np.gradient``` and the image is thresholded to convert it to a binary image.
 * Sepearate arrays for x-gradient,y-gradient are defined for further calculation.
+* This avoids unnecesary iterations to occur as we deal only with the strong edge pixels and not with the whole image.
 
 ### HOUGH SPACE
 * We know that euqation of a line is y=mx+c. If m and c are defined then we can have infinte points on the line, and can plot it. 
@@ -77,6 +78,6 @@ the procedure is as follows:
 * After recognizing such points we calculate the values required to draw on the image.
 * From the obtained values of parametres we acquire the intercepts and use the ```cv.line``` drawing function by feeding both the intercepts resulting in the ouput image.
 
-NOTE
+NOTE: **The top left corner of the image is considered as origin and hence the image is in 4th quadrant. Assuming 'D' vary from +d to -d where d is the length of the diagonal of the image with theta restricting from -90 to +90** 
  
 
