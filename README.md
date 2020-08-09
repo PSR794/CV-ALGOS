@@ -4,3 +4,5 @@
 * **OpenCV functions were used just for displaying and reading image.**
 * **The algorithm is implemented in 5 steps.**
 ### GAUSSIAN BLURRING
+* For executing gaussian blurring, initially a kernel is made from the ```gaussian_kernel(sigma,ksize)``` function which demands two arguments: sigma for the gaussian function and the size of kernel required.
+* 
