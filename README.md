@@ -32,6 +32,7 @@
 * Pixels with intensity values higher than the high threshold values are considered to contribute to the edge and on the other hand the pixels with lesser intensity than the lower threshold are assigned zero.
 * The pixels falling between these two threshold values are then examined for their connectivity with the strong pixels.
 * Separate arrays are declared consisting the indexes of strong and moderate pixels and are returned along with modified image for hysterisis.
+* A suitable pair of thresolds is fruitful as picking the extremes will miss many edges while on the contrary if lower ends are used then unwanted edges are detected.
 
 ### HYSTERISIS
 * The final step is to recognize if the pixels with moderate intensity are to be considered as an edge or not.
@@ -64,10 +65,10 @@ the procedure is as follows:
 * For each pixel we have the set of both the parametres. What we need to find is the intersection of all these lines.
 
 ### HOUGH ACCUMALTOR ARRAY
-* We define a 2-D array for 'D' and 'theta' the size of array is the no. of bins we want and we distribute the 'D' and 'theta' values evenly.
+* We define couple of 1-D array for 'D' and 'theta', the size of arrays is the no. of bins we want and they are asigned with the 'D' and 'theta' values evenly.
 * Now we convert the values of the D and theta into their bin numbers with the formula ```(x*(no.of bins))/x_max``` where x is the variable.
 * This results in 2 2-D arrays with the bin numbers alloted w.r.t to the values in it.
-* Both these arrays are flatten to make an 1-D array and then iterated to fetch couple of numbers from their respective indexes.
+* Both these arrays are flatten to make 1-D arrays and are iterated to fetch couple of numbers from their respective indices at a time.
 * A 2-D hough accumalator array having the shape of these two bin numbers is incremented as the iteration hit a certain position of that array.
 * A threshold value is set up so as to avoid arbitrary lines getting detected.
 * Another feature of minimum distance required is demanded by the code from the user.
