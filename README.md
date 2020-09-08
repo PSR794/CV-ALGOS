@@ -61,6 +61,6 @@
 Language versions:
 1. Python 3.7
 2. OpenCV 4.2.0
-3. numpy 1.19.0
+3. numpy 1.19.
 
 
