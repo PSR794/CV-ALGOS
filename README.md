@@ -60,7 +60,7 @@
 ---
 ---
 ---
-# HOUGH LINE TRANSFORM
+## HOUGH LINE TRANSFORM
 * **This algorithm is used to detect lines in the image** 
 * **This code implements hough line from scratch by numpy module, OpenCV and python**
 the procedure is as follows:
