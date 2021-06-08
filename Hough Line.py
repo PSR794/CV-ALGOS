@@ -23,27 +23,28 @@ def main():
             #reading the images
             img=cv.imread('sudoku.png',0)
             img1=cv.imread('sudoku.png')
+            clahe = cv.createCLAHE(clipLimit = 2)
+            imgc=clahe.apply(img)
 
             #getting the edges
-            gx,gy=np.gradient(img)
+            gx,gy=np.gradient(imgc)
             gx=np.array(gx,np.float32)
             gy=np.array(gy,np.float32)
             gmag=np.array(np.hypot(gx,gy),np.uint8)
             max_D= ((img.shape[0]**2) + (img.shape[1]**2))**0.5
             max_D=int(max_D)
             #thresholding
-            ret,BINARY_PIC=cv.threshold(gmag,25,255,cv.THRESH_BINARY)
+            ret,BINARY_PIC=cv.threshold(gmag,15,255,cv.THRESH_BINARY)
 
             #fetching the edge pixels in the binary image
             y,x=np.where(BINARY_PIC==255)
 
-            #Hough Accumalator Array 
+            #calculating sine angle of a location
             HAR=np.zeros((2*max_D+1,250))
             #choosing suitable values thetas
             n_thetas=180/250
             theta=np.arange(-90,90,step=n_thetas)
             THETA=np.arange(0,250)
-                
             for c,i in enumerate(y):
                     d= (x[c]*np.cos(np.radians(theta))) + (i*np.sin(np.radians(theta)))
                     D= np.int16(d)+max_D
@@ -51,19 +52,22 @@ def main():
                     HAR[D,THETA]+=1
             a,b=np.where(HAR>MIN_V)
             
-
             #getting the all possible normal distances for a pixel(coordinate)
+
             dis=np.arange(-max_D,max_D+1)
             t=np.arange(-90,90,step=180/250)
 #            print(t)
             d_line=dis[a]
+            print('before',d_line.shape)
             t_line=t[b]
-                
             d=int(np.hypot(img.shape[0],img.shape[1]))
             dsort=np.sort(d_line)
             for i in range(dsort.shape[0]-1):
                 if abs(dsort[i+1]-dsort[i])<DBL:
-                    d_line[np.where((d_line==dsort[i]))]=d+1
+                    idx=np.where(d_line==dsort[i+1])[0][0]
+                    d_line=np.delete(d_line,idx)#=d+1
+                    t_line=np.delete(t_line,idx)
+            print('after',d_line.shape)
                     
 
             #setting the coordinate arrays for drawing
@@ -79,12 +83,16 @@ def main():
             x2=np.array(x2,np.int16)
             y2=(Yo-1000*(w))
             y2=np.array(y2,np.int16)
+
             #drawing the lines
             for i in range(x1.shape[0]):
                 cv.line(img1,(x1[i],y1[i]),(x2[i],y2[i]),(0,255,0),2)
 
             #image display
+            cv.imshow('gmag',gmag)
             cv.imshow('LINES',img1)
+            cv.imshow('LINES_ORIGINAL',img)
+
             cv.waitKey()
             cv.destroyAllWindows()
             break
